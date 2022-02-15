@@ -1,0 +1,44 @@
+{
+  "name": "rmx-cli",
+  "version": "0.1.0",
+  "description": "A CLI for remix-run",
+  "author": "Michael J. Carter <kiliman@gmail.com> (https://kiliman.dev/)",
+  "license": "MIT",
+  "main": "dist/cli.js",
+  "bin": {
+    "rmx": "dist/cli.js"
+  },
+  "files": [
+    "dist/**/.js",
+    "README.md",
+    "LICENSE.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "esbuild --platform=node --format=cjs src/*.ts src/plugins/*.ts --outdir=dist",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "remix",
+    "cli",
+    "development",
+    "scaffolding",
+    "generator"
+  ],
+  "repository": "kiliman/rmx-cli",
+  "devDependencies": {
+    "@types/node": "^17.0.30",
+    "@types/node-fetch": "^2.5.7",
+    "all-contributors-cli": "^6.20.0",
+    "esbuild": "^0.14.38",
+    "esbuild-register": "^3.3.2",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@npmcli/package-json": "^2.0.0",
+    "node-fetch": "^2.6.7"
+  }
+}
