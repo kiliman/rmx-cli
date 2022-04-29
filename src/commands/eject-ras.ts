@@ -17,9 +17,10 @@ export default async function () {
   )
 
   // backup original package.json
+  const ts = new Date().toISOString().substring(0, 19).replace(/[-T:]/g, '')
   fs.copyFileSync(
-    path.resolve(process.cwd(), './package-copy.json'),
     path.resolve(process.cwd(), './package.json'),
+    path.resolve(process.cwd(), `./package-${ts}.json`),
   )
   // get package.json
   const pkgJson = await PackageJson.load(process.cwd())
