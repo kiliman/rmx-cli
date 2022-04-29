@@ -15,7 +15,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "esbuild --platform=node --format=cjs src/*.ts src/plugins/*.ts --outdir=dist",
+    "build": "esbuild --platform=node --format=cjs src/*.ts src/commands/*.ts --outdir=dist",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
     "prepublish": "npm run build"
