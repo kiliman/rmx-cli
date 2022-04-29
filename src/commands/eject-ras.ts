@@ -30,6 +30,7 @@ export default async function () {
 
   // install missing dependencies
   const dependencies = getDependencies(pkgJson.content.dependencies)
+  dependencies.uninstall('@remix-run/serve')
   for (const [name, version] of Object.entries(
     pkgJsonExpress.content.dependencies,
   )) {
@@ -37,7 +38,6 @@ export default async function () {
       dependencies.install(name, version === '*' ? remixVersion : version)
     }
   }
-  dependencies.uninstall('@remix-run/serve')
 
   // install missing devDependencies
   const devDependencies = getDependencies(pkgJson.content.devDependencies)
@@ -80,7 +80,7 @@ export default async function () {
   fs.rmdirSync(path.resolve(process.cwd(), './__eject-ras__'))
 
   console.log('🏁 Ejecting from Remix App Server... Done!\n')
-  console.log('🔨 run npm install to update your depenencies')
+  console.log('🔨 run npm install to update your dependencies')
 }
 
 function getDependencies(dependencies: Record<string, string>) {
