@@ -25,7 +25,7 @@ npx rmx <command-name>
 
 | command          | arguments                | description                                                                   |
 | ---------------- | ------------------------ | ----------------------------------------------------------------------------- |
-| eject-ras        | _none_                   | Eject Remix app from Remix App Server to Express Adapater                     |
+| eject-ras        | _none_                   | Eject Remix app from Remix App Server to Express Adapter                      |
 | get-esm-packages | list of packages to scan | Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle` |
 
 ## 😍 Contributors
