@@ -1,9 +1,7 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -38,6 +36,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://kiliman.dev/"><img src="https://avatars.githubusercontent.com/u/47168?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kiliman</b></sub></a><br /><a href="https://github.com/Kiliman/rmx-cli/commits?author=kiliman" title="Code">💻</a> <a href="https://github.com/Kiliman/rmx-cli/commits?author=kiliman" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://codsen.com/os/"><img src="https://avatars.githubusercontent.com/u/8344688?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Roy Revelt</b></sub></a><br /><a href="https://github.com/Kiliman/rmx-cli/commits?author=revelt" title="Documentation">📖</a></td>
   </tr>
 </table>
 

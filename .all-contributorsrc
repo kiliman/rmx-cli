@@ -19,6 +19,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "revelt",
+      "name": "Roy Revelt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8344688?v=4",
+      "profile": "https://codsen.com/os/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
