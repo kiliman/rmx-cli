@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 🚀 v0.2.0
+
+- ✨ Command `get-esm-packages` to scan for ESM package to add to
+  _remix.config.js_ `serverDependenciesToBundle`
+
 ## 🚀 v0.1.4
 
 - 🐛 Fix files path for dist folder
