@@ -23,9 +23,10 @@ npx rmx <command-name>
 
 ## 📦 Current Commands
 
-| command   | arguments | description                                               |
-| --------- | --------- | --------------------------------------------------------- |
-| eject-ras | _none_    | Eject Remix app from Remix App Server to Express Adapater |
+| command          | arguments                | description                                                                   |
+| ---------------- | ------------------------ | ----------------------------------------------------------------------------- |
+| eject-ras        | _none_                   | Eject Remix app from Remix App Server to Express Adapater                     |
+| get-esm-packages | list of packages to scan | Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle` |
 
 ## 😍 Contributors
 

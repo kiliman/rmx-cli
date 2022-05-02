@@ -15,5 +15,6 @@ async function main() {
   const command = (
     await import(path.resolve(cliPath, `./commands/${commandName}.js`))
   ).default
-  await command.default()
+  const args = process.argv.slice(3)
+  await command.default(args)
 }
