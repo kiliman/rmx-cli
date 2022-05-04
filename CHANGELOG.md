@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.2.1
+
+- 🐛 Fix commandPath for Windows [#2](https://github.com/kiliman/rmx-cli/issues/2)
+
 ## 🚀 v0.2.0
 
 - ✨ Command `get-esm-packages` to scan for ESM package to add to
