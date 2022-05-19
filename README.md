@@ -1,7 +1,9 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -13,18 +15,23 @@ commands.
 npm install -D rmx-cli
 ```
 
-## 🔨 Executing commands
-
-```bash
-npx rmx <command-name>
-```
-
 ## 📦 Current Commands
 
-| command          | arguments                | description                                                                   |
-| ---------------- | ------------------------ | ----------------------------------------------------------------------------- |
-| eject-ras        | _none_                   | Eject Remix app from Remix App Server to Express Adapter                      |
-| get-esm-packages | list of packages to scan | Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle` |
+### eject-ras
+
+Eject your Remix project from Remix App Server to Express
+
+```bash
+npx rmx eject-ras
+```
+
+### get-esm-packages
+
+Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle`
+
+```bash
+npx rmx get-esm-packages [package-name ...]
+```
 
 ## 😍 Contributors
 
