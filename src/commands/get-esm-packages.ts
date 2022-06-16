@@ -1,4 +1,4 @@
-export default function (args: string[]) {
+export default function (packages: string[]) {
   let esmPackages: Set<string> = new Set()
 
   function getDependencies(packageName: string) {
@@ -15,9 +15,10 @@ export default function (args: string[]) {
     }
   }
 
-  args.forEach(packageName => {
+  packages.forEach(packageName => {
     getDependencies(packageName)
   })
+
   console.log(
     '\n🔨 Add the following dependencies to your serverDependenciesToBundle\n',
   )
