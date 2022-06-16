@@ -37,13 +37,14 @@ async function main() {
     )
     .command(
       'new [type] [name]',
-      'Create a new Remix route',
+      'Create a new addition to your Remix project',
       yargs =>
         yargs
           .positional('type', {
             type: 'string',
             choices: ['route'],
             default: 'route' as NewCommandType,
+            describe: 'Type of addition to create. Defaults to route',
           })
           .positional('name', {
             type: 'string',
