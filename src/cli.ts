@@ -9,9 +9,7 @@ main().catch(console.error)
 async function main() {
   let context = await import('./context').then(m => m.getContext())
 
-  await //
-  //
-  yargs(hideBin(process.argv))
+  await yargs(hideBin(process.argv))
     .scriptName('rmx')
     .command(
       'eject-ras',
