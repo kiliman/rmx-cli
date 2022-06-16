@@ -17,7 +17,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "esbuild --platform=node --format=cjs src/*.ts src/commands/*.ts --outdir=dist",
+    "build": "esbuild --platform=node --format=cjs src/cli.ts --outdir=dist --bundle",
+    "dev": "npm run build --  --watch",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
     "prepublish": "npm run build",
@@ -33,17 +34,22 @@
   ],
   "repository": "kiliman/rmx-cli",
   "devDependencies": {
+    "@types/inquirer": "^8.2.1",
     "@types/node": "^17.0.30",
     "@types/node-fetch": "^2.5.7",
+    "@types/yargs": "^17.0.10",
     "all-contributors-cli": "^6.20.0",
     "esbuild": "^0.14.38",
     "esbuild-register": "^3.3.2",
-    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.6.4"
   },
   "dependencies": {
     "@npmcli/package-json": "^2.0.0",
-    "node-fetch": "^2.6.7"
+    "find-up": "^6.3.0",
+    "inquirer": "^8.2.4",
+    "node-fetch": "^2.6.7",
+    "prettier": "^2.6.2",
+    "yargs": "^17.5.1"
   }
 }
