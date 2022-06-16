@@ -1,7 +1,9 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -41,16 +43,15 @@ npx rmx new route route-name
 
 All of the arguments and flags to this command are optional.
 
-- `--meta | -m`: Create a new route and include the meta function.
-- `--links | -ls`: Create a new route and include the links function.
-- `--loader | -l`: Create a new route and include the loader function.
-- `--action | -a`: Create a new route and include the action function.
-- `--catchBoundary | --cb`: Create a new route and include the catchBoundary function.
-- `--errorBoundary | --eb`: Create a new route and include the errorBoundary function.
-- `--handle | -h`: Create a new route and include the handle object.
-- `--layout | --ly`: Create a layout route. This also includes the layout folder with an index.tsx file.
-- `--pathless | --pl`: When used alongside the `--layout` flag, it will create a pathless layout route. Ignored otherwise.
-
+- `--meta | -m`: Include the meta function. Defaults to `true`.
+- `--links | -ls`: Include the links function. Defaults to `true`.
+- `--loader | -l`: Include the loader function. Defaults to `true`.
+- `--action | -a`: Include the action function. Defaults to `true`.
+- `--catchBoundary | --cb`: Include the catchBoundary function. Defaults to `true`.
+- `--errorBoundary | --eb`: Include the errorBoundary function. Defaults to `true`.
+- `--handle | -h`: Include the handle object. Defaults to `false`.
+- `--layout | --ly`: Creates a layout route. This also includes the layout folder with an index.tsx file. Defaults to `false`.
+- `--pathless | --pl`: When used alongside the `--layout` flag, it will create a pathless layout route. Ignored otherwise. Defaults to `false`.
 
 ## 😍 Contributors
 
