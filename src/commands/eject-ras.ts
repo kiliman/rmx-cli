@@ -4,7 +4,17 @@ import * as fs from 'fs'
 import fetch from 'node-fetch'
 import * as path from 'path'
 
-export default async function () {
+import { RmxCommand } from '../types/command'
+
+let command: RmxCommand = {
+  name: 'eject-ras',
+  description: 'Eject your Remix project from Remix App Server to Express',
+  handler,
+}
+
+export default command
+
+async function handler() {
   console.log('🚀 Ejecting from Remix App Server...')
 
   // download package.json from express template

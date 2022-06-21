@@ -28,6 +28,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "cevr",
+      "name": "Cristian Velasquez Ramos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34170625?v=4",
+      "profile": "https://github.com/cevr",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
