@@ -4,6 +4,8 @@ import inquirer from 'inquirer'
 import { constants } from 'fs'
 import prettier from 'prettier'
 import { Context } from '../context'
+import { RmxCommand } from '../types/command'
+import { ArgumentsCamelCase, Argv } from 'yargs'
 
 export type NewCommandType = 'route'
 
@@ -22,44 +24,33 @@ type NewCommandArgs = {
   overwrite: boolean
 }
 
+type ValidatedCommandArgs = NewCommandArgs & {
+  name: string
+}
+
 type NewRouteDescriptor = {
   file: string
   path: string
 }
 
-export default async function (args: NewCommandArgs, context: Context) {
-  let { type, name } = args
+let command: RmxCommand = {
+  name: 'new [type] [name]',
+  description: 'Create a new addition to your Remix project',
+  builder,
+  handler,
+}
 
-  if (!name) {
-    name = await inquirer
-      .prompt({
-        type: 'input',
-        message: 'Name of the route',
-        name: 'name',
-        validate: value => {
-          if (!value) {
-            return 'Name is required'
-          }
-          if (value.includes('/')) {
-            return 'Name cannot contain slashes'
-          }
+export default command
 
-          // some arbitrary length limit
-          if (value.length > 30) {
-            return 'Name cannot be longer than 30 characters'
-          }
-          return true
-        },
-      })
-      .then(res => res.name as string)
-  }
+async function handler(_args: ArgumentsCamelCase, context: Context) {
+  let args = await validate(_args as unknown as NewCommandArgs)
 
   console.log(`🔨 Creating new route...`)
 
   let cwd = process.cwd()
   let routesDir = resolveRouteDir(cwd, context)
 
-  const templates = make(type, name as string, args, routesDir)
+  const templates = make(args, routesDir)
 
   const templatesWithExisting = await Promise.all(
     templates.map(async template => ({
@@ -107,6 +98,33 @@ export default async function (args: NewCommandArgs, context: Context) {
   })
 }
 
+async function validate(args: NewCommandArgs) {
+  if (!args.name) {
+    args.name = await inquirer
+      .prompt({
+        type: 'input',
+        message: 'Name of the route',
+        name: 'name',
+        validate: value => {
+          if (!value) {
+            return 'Name is required'
+          }
+          if (value.includes('/')) {
+            return 'Name cannot contain slashes'
+          }
+
+          // some arbitrary length limit
+          if (value.length > 30) {
+            return 'Name cannot be longer than 30 characters'
+          }
+          return true
+        },
+      })
+      .then(res => res.name as string)
+  }
+  return args as ValidatedCommandArgs
+}
+
 async function write(routes: NewRouteDescriptor[]) {
   return await Promise.all(
     routes.map(async descriptor => {
@@ -120,32 +138,97 @@ async function write(routes: NewRouteDescriptor[]) {
   )
 }
 
+function builder(yargs: Argv) {
+  return yargs
+    .positional('type', {
+      type: 'string',
+      choices: ['route'],
+      default: 'route' as NewCommandType,
+      describe: 'Type of addition to create. Defaults to route',
+    })
+    .positional('name', {
+      type: 'string',
+    })
+    .option('meta', {
+      boolean: true,
+      default: true,
+      alias: 'm',
+    })
+    .option('links', {
+      boolean: true,
+      default: true,
+      alias: 'ls',
+    })
+    .option('loader', {
+      boolean: true,
+      default: true,
+      alias: 'l',
+    })
+    .option('action', {
+      boolean: true,
+      default: true,
+      alias: 'a',
+    })
+    .option('catchBoundary', {
+      boolean: true,
+      default: true,
+      alias: 'cb',
+    })
+    .option('errorBoundary', {
+      boolean: true,
+      default: true,
+      alias: 'eb',
+    })
+    .option('layout', {
+      boolean: true,
+      default: false,
+      alias: 'ly',
+    })
+    .option('pathless', {
+      boolean: true,
+      default: false,
+      alias: 'pl',
+    })
+    .option('handle', {
+      boolean: true,
+      default: false,
+      alias: 'h',
+    })
+    .option('overwrite', {
+      boolean: true,
+      default: false,
+      alias: 'o',
+    })
+}
+
 function make(
   // for now, we only support one type of new command
-  _type: NewCommandType,
-  name: string,
-  args: NewCommandArgs,
+
+  args: ValidatedCommandArgs,
   dir: string,
 ): NewRouteDescriptor[] {
-  let file = generateRoute(name, args)
+  let file = generateRoute(args)
 
   return args.layout
     ? [
         {
-          path: path.resolve(dir, `${args.pathless ? '__' : ''}${name}.tsx`),
+          path: path.resolve(
+            dir,
+            `${args.pathless ? '__' : ''}${args.name}.tsx`,
+          ),
           file: file,
         },
         {
           path: path.resolve(
             dir,
-            `${args.pathless ? `__` : ''}${name}/index.tsx`,
+            `${args.pathless ? `__` : ''}${args.name}/index.tsx`,
           ),
-          file: generateRoute(`${name}-index`, args),
+          file: generateRoute({ ...args, name: `${args.name}-index` }),
         },
       ]
     : [
         {
-          path: path.resolve(dir, `${name}.tsx`),
+          path: path.resolve(dir, `${args.name}.tsx`),
           file: file,
         },
       ]
@@ -162,7 +245,7 @@ function resolveRouteDir(cwd: string, context: Context) {
   return dir
 }
 
-function generateRoute(name: string, args: NewCommandArgs) {
+function generateRoute({ name, ...args }: ValidatedCommandArgs) {
   let typeImports = [
     args.action && 'ActionFunction',
     args.loader && 'LoaderFunction',

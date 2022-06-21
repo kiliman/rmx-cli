@@ -2,111 +2,40 @@
 
 import yargs from 'yargs/yargs'
 import { hideBin } from 'yargs/helpers'
-import type { NewCommandType } from './commands/new'
 
 main().catch(console.error)
 
+// the intent is for this cli to eventually contain many pluggable commands
+// there will be a set of base commands that we maintain
+// and then remote commands that users of the CLI can add
 async function main() {
   let context = await import('./context').then(m => m.getContext())
+  let baseCommands = await import('./commands').then(m => m.default)
+  // let conf = await import('conf').then(
+  //   m =>
+  //     new m.default({
+  //       projectName: 'rmx-cli',
+  //     }),
+  // )
+  // here we access the remote commands added by the user
+  // this will be added by something like rmx add <command name>
+  // let remoteCommands = conf.get('remote.commands', []) as RmxCommand[]
+  let commands = baseCommands
+  let init = yargs(hideBin(process.argv)).scriptName('rmx')
 
-  await yargs(hideBin(process.argv))
-    .scriptName('rmx')
-    .command(
-      'eject-ras',
-      'Eject your Remix project from Remix App Server to Express',
-      async () => {
-        let command = (await import('./commands/eject-ras')).default
-        await command()
-      },
-    )
-    .command(
-      'get-esm-packages <packages..>',
-      'Scan for ESM package to add to remix.config.js serverDependenciesToBundle',
-      yargs => {
-        return yargs.positional('packages', {
-          desc: 'Packages to scan for ESM dependencies',
-          default: [] as string[],
-          array: true,
-        })
-      },
-      async args => {
-        let command = (await import('./commands/get-esm-packages')).default
+  // once we've gathered the commands, we can take advantage of yargs' builder api
+  // we start off with the initial yargs configuration
+  // and continously build with each command we have
+  let cli = commands.reduce(
+    (cli, command) =>
+      cli.command(
+        command.name,
+        command.description,
+        yargs => command.builder?.(yargs) ?? yargs,
+        args => command.handler(args, context),
+      ),
+    init,
+  )
 
-        command(args.packages)
-      },
-    )
-    .command(
-      'new [type] [name]',
-      'Create a new addition to your Remix project',
-      yargs =>
-        yargs
-          .positional('type', {
-            type: 'string',
-            choices: ['route'],
-            default: 'route' as NewCommandType,
-            describe: 'Type of addition to create. Defaults to route',
-          })
-          .positional('name', {
-            type: 'string',
-          })
-          .option('meta', {
-            boolean: true,
-            default: true,
-            alias: 'm',
-          })
-          .option('links', {
-            boolean: true,
-            default: true,
-            alias: 'ls',
-          })
-          .option('loader', {
-            boolean: true,
-            default: true,
-            alias: 'l',
-          })
-          .option('action', {
-            boolean: true,
-            default: true,
-            alias: 'a',
-          })
-          .option('catchBoundary', {
-            boolean: true,
-            default: true,
-            alias: 'cb',
-          })
-          .option('errorBoundary', {
-            boolean: true,
-            default: true,
-            alias: 'eb',
-          })
-          .option('layout', {
-            boolean: true,
-            default: false,
-            alias: 'ly',
-          })
-          .option('pathless', {
-            boolean: true,
-            default: false,
-            alias: 'pl',
-          })
-          .option('handle', {
-            boolean: true,
-            default: false,
-            alias: 'h',
-          })
-          .option('overwrite', {
-            boolean: true,
-            default: false,
-            alias: 'o',
-          }),
-
-      async args => {
-        let command = await import('./commands/new').then(m => m.default)
-
-        await command(args, context)
-      },
-    )
-    .demandCommand()
-    .recommendCommands()
-    .help().argv
+  await cli.demandCommand().recommendCommands().help().argv
 }
