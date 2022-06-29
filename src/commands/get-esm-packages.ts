@@ -1,8 +1,16 @@
+import * as fs from 'node:fs'
+
 export default function (args: string[]) {
   let esmPackages: Set<string> = new Set()
 
   function getDependencies(packageName: string) {
-    const packageJson = require(`${packageName}/package.json`)
+    const packageJsonFilename = `./node_modules/${packageName}/package.json`
+    if (!fs.existsSync(packageJsonFilename)) {
+      console.log(`⚠️ ${packageName} package.json not found`)
+      return
+    }
+    const json = fs.readFileSync(packageJsonFilename, 'utf8')
+    const packageJson = JSON.parse(json)
 
     if (packageJson.type === 'module') {
       if (esmPackages.has(packageName)) return
