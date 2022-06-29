@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.2.2
+
+- 🐛 Update `get-esm-packages` to check for _package.json_ before loading
+
 ## 🚀 v0.2.1
 
 - 🐛 Fix commandPath for Windows [#2](https://github.com/kiliman/rmx-cli/issues/2)
