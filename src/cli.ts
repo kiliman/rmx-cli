@@ -7,7 +7,7 @@ main().catch(console.error)
 
 async function main() {
   if (process.argv.length < 3) {
-    console.error('Usage: npx rmx <command>')
+    console.error('Usage: npx rmx-cli <command>')
     process.exit(1)
   }
   const cliPath = path.dirname(fs.realpathSync(process.argv[1]))
