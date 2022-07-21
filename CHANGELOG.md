@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.2.3
+
+- 🔨 Update `rmx-cli` usage
+
 ## 🚀 v0.2.2
 
 - 🐛 Update `get-esm-packages` to check for _package.json_ before loading
