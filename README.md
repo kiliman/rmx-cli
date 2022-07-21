@@ -22,7 +22,7 @@ npm install -D rmx-cli
 Eject your Remix project from Remix App Server to Express
 
 ```bash
-npx rmx eject-ras
+npx rmx-cli eject-ras
 ```
 
 ## 📦 get-esm-packages
@@ -30,7 +30,7 @@ npx rmx eject-ras
 Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle`
 
 ```bash
-npx rmx get-esm-packages [package-name ...]
+npx rmx-cli get-esm-packages [package-name ...]
 ```
 
 ## 😍 Contributors
