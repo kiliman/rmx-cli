@@ -1,7 +1,9 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -29,6 +31,78 @@ Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle`
 
 ```bash
 npx rmx-cli get-esm-packages [package-name ...]
+```
+
+## 🚀 gen-remix
+
+THis script will generate a _remix.ts_ file which re-exports all exports
+from specified packages. This essentially works like the _magic_ `remix`
+package from early Remix.
+
+Why is this useful?
+
+1. Go back to importing from one file instead of adapter specific packages. If you ever switch adapters, just re-generate the _remix.ts_ file.
+2. Adds support for overrides. Now you can override a standard Remix export with your own function. Like replacing `json`, `useLoaderData`, etc. with the `remix-typedjson` functions.
+
+### Usage
+
+```bash
+Usage:
+    $ gen-remix [options]
+
+  Options:
+    --config PATH       Config path (default: ./gen-remix.config.json)
+    --packages PACKAGES List of packages to export
+    --output PATH       Output path (default: ./app/remix.ts)
+
+  Example:
+    rmx gen-remix --packages @remix-run/node @remix-run/react
+```
+
+### Config
+
+You can also include an optional config (defaults to _gen-remix.config.json_) where you can specify overrides.
+
+```json
+{
+  "exports": ["packageA", "packageB"],
+  "overrides": {
+    "<source-package>": [
+      "<original-package>": {
+        "<original-export>": "<new-source-export>",
+        ...
+      },
+      "<original-package>": {
+        "<original-export>": "<new-source-export>",
+        ...
+      }
+    ],
+    ...
+  }
+}
+```
+
+### Example config:
+
+This config replaces the Remix `json`, `redirect`, `useActionData`, etc. with the versions for [`remix-typedjson`](https://github.com/kiliman/remix-typedjson).
+
+```json
+{
+  "exports": ["@remix-run/node", "@remix-run/react", "remix-typedjson"],
+  "overrides": {
+    "remix-typedjson": {
+      "@remix-run/node": {
+        "json": "typedjson",
+        "redirect": "redirect"
+      },
+      "@remix-run/react": {
+        "useActionData": "useTypedActionData",
+        "useFetcher": "useTypedFetcher",
+        "useLoaderData": "useTypedLoaderData"
+      }
+    }
+  }
+}
 ```
 
 ## 😍 Contributors
