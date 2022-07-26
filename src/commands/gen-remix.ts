@@ -31,10 +31,10 @@ export default async function () {
       capture = null
       switch (arg) {
         case '--config':
-          configPath = process.argv[i++]
+          configPath = process.argv[++i]
           break
         case '--output':
-          outputPath = process.argv[i++]
+          outputPath = process.argv[++i]
           break
         case '--packages':
           capture = packages
