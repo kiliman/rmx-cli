@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.3.1
+
+- 🐛 Fix argument parsing
+
 ## 🚀 v0.3.0
 
 - ✨ Add `gen-remix` command
