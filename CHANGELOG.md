@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.3.0
+
+- ✨ Add `gen-remix` command
+
 ## 🚀 v0.2.3
 
 - 🔨 Update `rmx-cli` usage
