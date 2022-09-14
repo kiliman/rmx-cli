@@ -43,12 +43,13 @@ Why is this useful?
 
 1. Go back to importing from one file instead of adapter specific packages. If you ever switch adapters, just re-generate the _remix.ts_ file.
 2. Adds support for overrides. Now you can override a standard Remix export with your own function. Like replacing `json`, `useLoaderData`, etc. with the `remix-typedjson` functions.
+3. Add `"postinstall": "rmx gen-remix"` to *package.json* to ensure the file is regenerated when upgrading Remix packages.
 
 ### Usage
 
 ```bash
 Usage:
-    $ gen-remix [options]
+    $ npx rmx gen-remix [options]
 
   Options:
     --config PATH       Config path (default: ./gen-remix.config.json)
