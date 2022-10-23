@@ -172,7 +172,8 @@ export default async function () {
     const currValues = exports[packageName].values.filter(
       // eslint-disable-next-line no-loop-func
       e =>
-        !exports[packageName].overrides.includes(e) && !allExports.includes(e),
+        !exportOverrides.some(([original]) => e === original) &&
+        !allExports.includes(e),
     )
     allExports = [...allExports, ...currValues]
     output += `\nexport {\n${currValues
