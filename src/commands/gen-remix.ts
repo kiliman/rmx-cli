@@ -206,13 +206,30 @@ export default async function () {
   }
   if (hasOverrides) {
     output += `\n\n// export overrides`
-    output += `\nexport {\n${exportOverrides
-      .map(
-        ([source, target]) =>
-          `  ${source === target ? target : `${target} as ${source}`},`,
-      )
-      .join('\n')}\n};`
+    const overrideValues = exportOverrides.filter(
+      ({ type }) => type === 'value',
+    )
+    if (overrideValues.length) {
+      overrideValues.sort()
+      output += `\nexport {\n${overrideValues
+        .map(
+          ({ source, target }) =>
+            `  ${source === target ? source : `${source} as ${target}`},`,
+        )
+        .join('\n')}\n};`
+    }
+    const overrideTypes = exportOverrides.filter(({ type }) => type === 'type')
+    if (overrideTypes.length) {
+      overrideTypes.sort()
+      output += `\nexport type {\n${overrideTypes
+        .map(
+          ({ source, target }) =>
+            `  ${source === target ? source : `${source} as ${target}`},`,
+        )
+        .join('\n')}\n};`
+    }
   }
+
   console.log(`📝 Writing ${outputPath}...`)
   fs.writeFileSync(outputPath, output, 'utf8')
   console.log('🏁 Done!')
