@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 🚀 v0.3.2
+
+- 🐛 Fix override exports [#5](https://github.com/kiliman/rmx-cli/issues/5)
+- 🐛 Ensure exports for overrides use the correct export type [#6](https://github.com/kiliman/rmx-cli/issues/6)
+
 ## 🚀 v0.3.1
 
 - 🐛 Fix argument parsing
