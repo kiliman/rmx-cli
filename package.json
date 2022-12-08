@@ -1,6 +1,6 @@
 {
   "name": "rmx-cli",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A CLI for remix-run",
   "author": "Michael J. Carter <kiliman@gmail.com> (https://kiliman.dev/)",
   "license": "MIT",

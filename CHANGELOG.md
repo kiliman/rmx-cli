@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.3.4
+
+- 🔨 Add @ts-ignore and eslint-disable to generated file to ignore "errors"
+
 ## 🚀 v0.3.3
 
 - 🔨 Remove timestamp on generated file `gen-remix` due to spurious diffs
