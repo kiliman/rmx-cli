@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.3.5
+
+- 🔨 Check for `module` property as well as `type === module` for ESM packages
+
 ## 🚀 v0.3.4
 
 - 🔨 Add @ts-ignore and eslint-disable to generated file to ignore "errors"
