@@ -12,7 +12,7 @@ export default function (args: string[]) {
     const json = fs.readFileSync(packageJsonFilename, 'utf8')
     const packageJson = JSON.parse(json)
 
-    if (packageJson.type === 'module') {
+    if (packageJson.type === 'module' || packageJson.module) {
       if (esmPackages.has(packageName)) return
       console.log(`📦 ${packageName}`)
       esmPackages.add(packageName)
