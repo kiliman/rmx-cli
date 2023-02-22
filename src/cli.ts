@@ -12,6 +12,12 @@ async function main() {
   }
   const cliPath = path.dirname(fs.realpathSync(process.argv[1]))
   const commandName = process.argv[2]
+
+  if (!fs.existsSync(path.join(cliPath, 'commands', `${commandName}.js`))) {
+    console.error('Unknown command: ' + commandName)
+    process.exit(1)
+  }
+
   // add file:// prefix for windows imports
   const commandPath =
     'file://' + path.join(cliPath, 'commands', `${commandName}.js`)
