@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 🚀 v0.3.6
+
+- ✨ Add new `version` command
+- 🐛 Check if command exists before attempting to load
+
 ## 🚀 v0.3.5
 
 - 🔨 Check for `module` property as well as `type === module` for ESM packages
