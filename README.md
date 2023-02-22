@@ -33,6 +33,14 @@ Scan for ESM package to add to _remix.config.js_ `serverDependenciesToBundle`
 npx rmx-cli get-esm-packages [package-name ...]
 ```
 
+## 🏷️ version
+
+List all Remix package versions installed in node_modules
+
+```bash
+npx rmx-cli version
+```
+
 ## 🚀 gen-remix
 
 THis script will generate a _remix.ts_ file which re-exports all exports
