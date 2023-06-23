@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.0
+
+- ✨ Add new `svg-sprite` command
+
 ## 🚀 v0.3.6
 
 - ✨ Add new `version` command
