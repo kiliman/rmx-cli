@@ -1,6 +1,7 @@
-import { spawn } from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+// @ts-expect-error
+import svgParser from '../libs/svg-parser'
 
 let rootFolder = ''
 let outputFolder = ''
@@ -23,14 +24,17 @@ function normalizeFolder(folder: string) {
   let fullPath = path.resolve(folder)
   // remove cwd from path and leading slash
   let normalized = fullPath.replace(process.cwd(), '').substring(1)
-  console.log({ fullPath, normalized })
   return normalized
 }
 
 function generateSprites(folder: string) {
   // any .svg files in this folder?
-  if (fs.readdirSync(folder).some(file => file.endsWith('.svg'))) {
-    generateSprite(folder)
+  const svgFiles = fs
+    .readdirSync(folder)
+    .filter(file => file.endsWith('.svg'))
+    .map(file => path.join(folder, file))
+  if (svgFiles.length > 0) {
+    generateSprite(folder, svgFiles)
   }
 
   // recurse through folders looking for .svg files
@@ -44,7 +48,7 @@ function generateSprites(folder: string) {
   })
 }
 
-function generateSprite(folder: string) {
+function generateSprite(folder: string, files: string[]) {
   // folder is something like: assets/svg/heroicons/20/solid
   // spriteOutputFolder: components/svg/heroicons/20/solid
 
@@ -57,13 +61,19 @@ function generateSprite(folder: string) {
   if (!fs.existsSync(spriteOutputFolder)) {
     fs.mkdirSync(spriteOutputFolder, { recursive: true })
   }
+  const strip = true
+  const trim = false
 
-  // generate sprite via svg-icon-generate CLI
-  const child = spawn(
-    'npx',
-    ['svg-icon-generate', `--folder=${folder}`, `--output=${spriteOutput}`],
-    { shell: true },
-  )
+  // heuristic to determine if the icons are solid or outline
+  // folder name equals 'solid' or contains a 'solid' filename
+  const solid =
+    path.basename(folder) === 'solid' ||
+    fs.existsSync(path.join(folder, 'solid'))
+
+  let { svgElement } = svgParser.iterateFiles(files, strip, trim, solid)
+
+  svgElement = svgParser.wrapInSvgTag(svgElement)
+  svgParser.writeIconsToFile(spriteOutput, svgElement)
 
   // create the sprite.d.ts file
   const typesFilename = path.join(spriteOutputFolder, 'sprite.d.ts')
@@ -78,33 +88,24 @@ function generateSprite(folder: string) {
   typesFile.write(`declare namespace ${namespace} {\n`)
   typesFile.write('  export type IconIds =\n')
 
-  child.stdout.on('data', data => {
-    // get the sprite id from the CLI output
-    // and write to the types file
-    const lines = data.toString().split('\n') as string[]
-    lines.forEach(line => {
-      const match = line.match(/Created SVG symbol from (.+)/)
-      if (match) {
-        // strip color codes
-        const id = match[1].replace(/[\x1b]\[\d+m/g, '')
-        typesFile.write(`    | "${id}"\n`)
-        console.log(`✅ ${id}`)
-      }
-    })
+  files.forEach(file => {
+    const id = path.basename(file, '.svg')
+    typesFile.write(`    | "${id}"\n`)
+    console.log(`✅ ${id}`)
   })
 
-  child.stderr.on('data', data => {
-    console.error(`❌: ${data}`)
-  })
-
-  child.on('close', code => {
-    typesFile.write(`}\n`)
-    typesFile.close()
-    generateReactComponent(spriteOutputFolder, namespace)
-  })
+  typesFile.write(`}\n`)
+  typesFile.close()
+  generateReactComponent(spriteOutputFolder, namespace, solid)
 }
 
-function generateReactComponent(spriteOutputFolder: string, namespace: string) {
+function generateReactComponent(
+  spriteOutputFolder: string,
+  namespace: string,
+  solid: boolean,
+) {
+  const strokeOrFill = solid ? 'fill="currentColor"' : 'stroke="currentColor"'
+
   const component = `
 import href from "./sprite.svg";
 export { href };
@@ -118,7 +119,7 @@ export default function Icon({
 }) {
   return (
     <svg className={className}>
-      <use href={\`\${href}#\${id}\`} />
+      <use href={\`\${href}#\${id}\`} className={className} ${strokeOrFill}/>
     </svg>
   );
 }
