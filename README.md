@@ -1,7 +1,9 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -14,6 +16,41 @@ npm install -D rmx-cli
 ```
 
 # Commands
+
+## 🎁 svg-sprite ✨ NEW
+
+Generate SVG sprites recursively from `ROOT_FOLDER`. It generates the sprite file,
+as well as a React component that you can use to specify the sprite ID. A `sprite.d.ts`
+file is also created to ensure that only valid IDs are used. It also exports the `href`
+of the sprite file to use in the Remix `links` export.
+
+```bash
+npx rmx-cli svg-sprite <ROOT_FOLDER> <OUTPUT_FOLDER>
+```
+
+### Usage
+
+```bash
+npx rmx-cli svg-sprite assets/svg app/components/icons
+```
+
+```ts
+// import icon component and href
+import HeroIcons24Outline, {
+  href as outline24Icons,
+} from "~/components/icons/heroicons/24/outline";
+
+// generate <link rel="preload"> for the sprite file
+export const links: LinksFunction = () => [
+  { rel: "preload", href: outline24Icons, as: "image" },
+  { rel: "stylesheet", href: tailwindCss },
+];
+
+// only valid ids are allowed and className is available
+<HeroIcons24Outline id="academic-cap" className="h-6 w-6" />
+<HeroIcons24Outline id="home" className="h-6 w-6" />
+<HeroIcons24Outline id="chat-bubble-left" className="h-6 w-6" />
+```
 
 ## 🪂 eject-ras
 
