@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.1
+
+- 🔨 Add support for using `currentColor` for `stroke` and `fill` icons
+
 ## 🚀 v0.4.0
 
 - ✨ Add new `svg-sprite` command
