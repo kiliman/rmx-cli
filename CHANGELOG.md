@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.3
+
+- 🔨 Export components for each icon instead of using sprite id
+
 ## 🚀 v0.4.2
 
 - 🔨 Update handling of solid vs outline icons to be automatic
