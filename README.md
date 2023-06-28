@@ -23,13 +23,22 @@ Generate SVG sprites recursively from `SOURCE_FOLDER`. It generates the sprite f
 as well as a React component to create the icon by specifying the fully-typed icon name.
 It also exports the `href` of the sprite file to use in the Remix `links` export.
 
+The `OUTPUT_PATH` can be a folder or a filename. If it is a filename, that will be used
+as the base name if there are multiple source folders. For example:
+_components/icons/icon.tsx_ will generate an _icons.tsx_ and _icons.svg_ file for every
+source folder.
+
 If you want to generate a React component for _each_ icon, then add the `--components`
 argument. Then you can import the named icon directly.
+
+You can specify a custom template file that will be used as the base for the generated
+React component. The typed `IconNames` and exported components will be be appended to this
+template file.
 
 > NOTE: The React component name will be the filename in TitleCase
 
 ```bash
-npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_FOLDER [--components]
+npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_PATH [--components] [--template=TEMPLATE_FILE]
 ```
 
 ### Usage

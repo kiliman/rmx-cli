@@ -5,23 +5,41 @@ import svgParser from '../libs/svg-parser'
 
 let rootFolder = ''
 let outputFolder = ''
+let outputFilename = 'index.tsx'
+let template: string | null = null
 let namedComponents = false
 
 export default function (args: string[]) {
   // verify arguments
   if (args.length >= 2) {
     rootFolder = normalizeFolder(args[0])
-    outputFolder = normalizeFolder(args[1])
-    if (args[2] === '--components') {
-      namedComponents = true
+    let outputPath = args[1]
+    // if output folder has extension, then treat this as the base name
+    if (outputPath.endsWith('.tsx')) {
+      outputFolder = path.dirname(outputPath)
+      outputFilename = path.basename(outputPath)
+    } else {
+      outputFolder = normalizeFolder(outputPath)
+    }
+    for (let i = 2; i < args.length; i++) {
+      if (args[i].startsWith('--template=')) {
+        const templateFilename = args[i].substring('--template='.length)
+        template = fs.readFileSync(templateFilename, 'utf8')
+      } else if (args[i] === '--components') {
+        namedComponents = true
+      }
     }
   } else {
     console.log(
-      'Usage: npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_FOLDER [--components]',
+      'Usage: npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_PATH [--components] [--template=TEMPLATE_FILE]',
     )
     console.log('  SOURCE_FOLDER: folder containing .svg files')
-    console.log('  OUTPUT_FOLDER: folder to write sprite.svg and index.tsx')
+    console.log('  OUTPUT_PATH: output path for sprite file and components')
+    console.log(
+      '    if OUTPUT_PATH ends with .tsx, then use this as the base filename',
+    )
     console.log('   --components: generate named components for each icon')
+    console.log('  --template=TEMPLATE_FILE: use custom template file')
     process.exit(1)
   }
 
@@ -62,7 +80,10 @@ function generateSprite(folder: string, files: string[]) {
   // spriteOutputFolder: components/svg/heroicons/20/solid
 
   const spriteOutputFolder = folder.replace(rootFolder, outputFolder)
-  const spriteOutput = path.join(spriteOutputFolder, 'sprite.svg')
+  const spriteOutput = path.join(
+    spriteOutputFolder,
+    path.basename(outputFilename, '.tsx') + '.svg',
+  )
 
   console.log(`📝 Generating sprite for ${folder}`)
 
@@ -78,18 +99,14 @@ function generateSprite(folder: string, files: string[]) {
   svgElement = svgParser.wrapInSvgTag(svgElement)
   svgParser.writeIconsToFile(spriteOutput, svgElement)
 
-  // delete old sprite.d.ts file if it exists
-  const typesFilename = path.join(spriteOutputFolder, 'sprite.d.ts')
-  if (fs.existsSync(typesFilename)) {
-    fs.unlinkSync(typesFilename)
-  }
-
   generateReactComponent(spriteOutputFolder, files)
 }
 
 function generateReactComponent(spriteOutputFolder: string, files: string[]) {
   let icons = files.map(file => path.basename(file, '.svg'))
-  let component = `
+  let component =
+    template ??
+    `
 import { type SVGProps } from "react";
 import href from "./sprite.svg";
 export { href };
@@ -101,7 +118,9 @@ export default function Icon({ icon, ...props}: SVGProps<SVGSVGElement> & { icon
     </svg>
   );
 }
-
+`
+  // add type IconName for each icon file
+  component += `
 type IconName =
 ${icons.map(icon => `  | "${icon}"`).join('\n')}
 `
@@ -118,6 +137,9 @@ ${icons.map(icon => `  | "${icon}"`).join('\n')}
 export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
     })
   }
-  fs.writeFileSync(path.join(spriteOutputFolder, 'index.tsx'), component.trim())
+  fs.writeFileSync(
+    path.join(spriteOutputFolder, outputFilename),
+    component.trim(),
+  )
   console.log()
 }
