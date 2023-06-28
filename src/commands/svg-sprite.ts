@@ -80,7 +80,7 @@ function generateSprite(folder: string, files: string[]) {
 
 function generateReactComponent(spriteOutputFolder: string, files: string[]) {
   let component = `
-import { SVGProps } from "react";
+import { type SVGProps } from "react";
 import href from "./sprite.svg";
 export { href };
 
