@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.5
+
+🔨 Update component generation with --components flag for named exports
+
 ## 🚀 v0.4.4
 
 - 🔨 Update React sprite component import
