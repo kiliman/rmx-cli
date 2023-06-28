@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 🚀 v0.4.2
+
+- 🔨 Update handling of solid vs outline icons to be automatic
+
+## 🚀 v0.4.1
+
+- 🔨 Add support for using `currentColor` for `stroke` and `fill` icons
+
 ## 🚀 v0.4.1
 
 - 🔨 Add support for using `currentColor` for `stroke` and `fill` icons
