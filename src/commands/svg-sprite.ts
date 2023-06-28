@@ -69,47 +69,44 @@ function generateSprite(folder: string, files: string[]) {
   svgElement = svgParser.wrapInSvgTag(svgElement)
   svgParser.writeIconsToFile(spriteOutput, svgElement)
 
-  // create the sprite.d.ts file
+  // delete old sprite.d.ts file if it exists
   const typesFilename = path.join(spriteOutputFolder, 'sprite.d.ts')
-  const typesFile = fs.createWriteStream(typesFilename)
+  if (fs.existsSync(typesFilename)) {
+    fs.unlinkSync(typesFilename)
+  }
 
-  // convert the output folder to a namespace (path separators to underscores)
-  const namespace = spriteOutputFolder
-    .replace(outputFolder, '')
-    .replace(/[\/\\]/g, '_')
-    .substring(1) // remove leading underscore
-
-  typesFile.write(`declare namespace ${namespace} {\n`)
-  typesFile.write('  export type IconIds =\n')
-
-  files.forEach(file => {
-    const id = path.basename(file, '.svg')
-    typesFile.write(`    | "${id}"\n`)
-    console.log(`✅ ${id}`)
-  })
-
-  typesFile.write(`}\n`)
-  typesFile.close()
-  generateReactComponent(spriteOutputFolder, namespace)
+  generateReactComponent(spriteOutputFolder, files)
 }
 
-function generateReactComponent(spriteOutputFolder: string, namespace: string) {
-  const component = `
+function generateReactComponent(spriteOutputFolder: string, files: string[]) {
+  let component = `
 import { SVGProps } from "react";
 import href from "./sprite.svg";
 export { href };
 
-export default function Icon({
-  id,
-  ...props
-}: SVGProps<SVGSVGElement> & { id: ${namespace}.IconIds }) {
+function Icon({ id, ...props}: SVGProps<SVGSVGElement>) {
   return (
     <svg {...props}>
       <use href={\`\${href}#\${id}\`} className={props.className} />
     </svg>
   );
 }
-    `.trim()
+`
 
-  fs.writeFileSync(path.join(spriteOutputFolder, 'index.tsx'), component)
+  files.forEach(file => {
+    const id = path.basename(file, '.svg')
+    console.log('✅', id)
+    // convert kebab case to title case
+    const componentName = id.replace(/(^|-)([a-z0-9])/g, g =>
+      g!.at(-1)!.toUpperCase(),
+    )
+    component += `
+export function ${componentName}Icon(props: SVGProps<SVGSVGElement>) {
+  return <Icon id="${id}" {...props} />;
+}
+`
+  })
+
+  fs.writeFileSync(path.join(spriteOutputFolder, 'index.tsx'), component.trim())
+  console.log()
 }

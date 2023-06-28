@@ -20,11 +20,10 @@ npm install -D rmx-cli
 ## 🎁 svg-sprite ✨ NEW
 
 Generate SVG sprites recursively from `ROOT_FOLDER`. It generates the sprite file,
-as well as a React component that you can use to specify the sprite ID. A `sprite.d.ts`
-file is also created to ensure that only valid IDs are used. It also exports the `href`
+as well as a React component for each icon. It also exports the `href`
 of the sprite file to use in the Remix `links` export.
 
-> NOTE: You can color your icons using `className`, eg. `text-blue-500`.
+> NOTE: v0.4.3 removed the _sprite.d.ts_ file in favor of named exports per icon
 
 ```bash
 npx rmx-cli svg-sprite <ROOT_FOLDER> <OUTPUT_FOLDER>
@@ -39,10 +38,13 @@ npx rmx-cli svg-sprite assets/svg app/components/icons
 ```
 
 ```ts
-// import icon component and href
-import HeroIcons24Outline, {
+// import icon components and href to sprite file
+import {
+  ArchiveBoxIcon,
+  ArrowDownIcon,
+  CakeIcon,
   href as outline24Icons,
-} from "~/components/icons/heroicons/24/outline";
+} from "~/components/heroicons/24/outline";
 
 // generate <link rel="preload"> for the sprite file
 export const links: LinksFunction = () => [
@@ -50,10 +52,10 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCss },
 ];
 
-// only valid ids are allowed and className is available
-<HeroIcons24Outline id="academic-cap" className="text-red-500 h-6 w-6" />
-<HeroIcons24Outline id="home" className="text-green-500 h-6 w-6" />
-<HeroIcons24Outline id="chat-bubble-left" className="text-blue-500 h-6 w-6" />
+// control color and size using className
+<ArchiveBoxIcon className="text-red-500 h-6 w-6" />
+<ArrowDownIcon className="text-green-500 h-6 w-6" />
+<CakeIcon className="text-blue-500 h-6 w-6" />
 ```
 
 <img src="./images/svg-sprite.png" style="max-width:400px">
