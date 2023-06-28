@@ -24,10 +24,7 @@ as well as a React component that you can use to specify the sprite ID. A `sprit
 file is also created to ensure that only valid IDs are used. It also exports the `href`
 of the sprite file to use in the Remix `links` export.
 
-> NOTE: You can color your icons using `className`, eg. `text-blue-500`. However,
-> when generating the SVG sprite, the tool needs to know if the icon should be treated
-> as _solid_ or _outline_. To handle solid icons, the folder must be either named `solid`
-> or add an empty file named `solid` where the _.svg_ files are located.
+> NOTE: You can color your icons using `className`, eg. `text-blue-500`.
 
 ```bash
 npx rmx-cli svg-sprite <ROOT_FOLDER> <OUTPUT_FOLDER>
@@ -56,7 +53,7 @@ export const links: LinksFunction = () => [
 // only valid ids are allowed and className is available
 <HeroIcons24Outline id="academic-cap" className="text-red-500 h-6 w-6" />
 <HeroIcons24Outline id="home" className="text-green-500 h-6 w-6" />
-<HeroIcons24Outline id="text-blue-500 chat-bubble-left" className="h-6 w-6" />
+<HeroIcons24Outline id="chat-bubble-left" className="text-blue-500 h-6 w-6" />
 ```
 
 <img src="./images/svg-sprite.png" style="max-width:400px">

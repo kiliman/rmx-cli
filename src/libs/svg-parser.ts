@@ -46,8 +46,8 @@ const svgParserLib = {
    * @return {string} stripped SVG as string
    */
   stripProperties: svg => {
-    const stripRe = new RegExp(' (stroke|fill)="((?!none).*?)"', 'igm')
-    return svg.replace(stripRe, '')
+    const stripRe = /\s+(stroke|fill)="((?!(none|currentColor)).*?)"/gim
+    return svg.replace(stripRe, ' $1="currentColor"')
   },
 
   makeSolid: svg => {
@@ -79,10 +79,9 @@ const svgParserLib = {
    * @param {{name: string, path: string}[]} files - List containing file references and names
    * @param {boolean} [strip] - whether to remove fill/stroke attributes
    * @param {boolean} [trim] - whether to remove all
-   * @param {boolean} [solid] - whether to remove all whitespaces
    * @return {{elementsChanged: number, svgElement: string}} final SVG sprite as string
    */
-  iterateFiles: (files, strip, trim, solid) => {
+  iterateFiles: (files, strip, trim) => {
     let svgElement = ''
     let elementsChanged = 0
 
@@ -94,9 +93,6 @@ const svgParserLib = {
 
         if (strip) {
           symbolEl = svgParserLib.stripProperties(symbolEl)
-        }
-        if (solid) {
-          symbolEl = svgParserLib.makeSolid(symbolEl)
         }
 
         svgElement += symbolEl

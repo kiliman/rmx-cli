@@ -64,13 +64,7 @@ function generateSprite(folder: string, files: string[]) {
   const strip = true
   const trim = false
 
-  // heuristic to determine if the icons are solid or outline
-  // folder name equals 'solid' or contains a 'solid' filename
-  const solid =
-    path.basename(folder) === 'solid' ||
-    fs.existsSync(path.join(folder, 'solid'))
-
-  let { svgElement } = svgParser.iterateFiles(files, strip, trim, solid)
+  let { svgElement } = svgParser.iterateFiles(files, strip, trim)
 
   svgElement = svgParser.wrapInSvgTag(svgElement)
   svgParser.writeIconsToFile(spriteOutput, svgElement)
@@ -96,30 +90,22 @@ function generateSprite(folder: string, files: string[]) {
 
   typesFile.write(`}\n`)
   typesFile.close()
-  generateReactComponent(spriteOutputFolder, namespace, solid)
+  generateReactComponent(spriteOutputFolder, namespace)
 }
 
-function generateReactComponent(
-  spriteOutputFolder: string,
-  namespace: string,
-  solid: boolean,
-) {
-  const strokeOrFill = solid ? 'fill="currentColor"' : 'stroke="currentColor"'
-
+function generateReactComponent(spriteOutputFolder: string, namespace: string) {
   const component = `
+import { SVGProps } from "react";
 import href from "./sprite.svg";
 export { href };
 
 export default function Icon({
   id,
-  className,
-}: {
-  id: ${namespace}.IconIds;
-  className?: string;
-}) {
+  ...props
+}: SVGProps<SVGSVGElement> & { id: ${namespace}.IconIds }) {
   return (
-    <svg className={className}>
-      <use href={\`\${href}#\${id}\`} className={className} ${strokeOrFill}/>
+    <svg {...props}>
+      <use href={\`\${href}#\${id}\`} className={props.className} />
     </svg>
   );
 }
