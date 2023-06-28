@@ -46,8 +46,11 @@ const svgParserLib = {
    * @return {string} stripped SVG as string
    */
   stripProperties: svg => {
-    const stripRe = /\s+(stroke|fill)="((?!(none|currentColor)).*?)"/gim
-    return svg.replace(stripRe, ' $1="currentColor"')
+    const strokeFill = /\s+(stroke|fill)="((?!(none|currentColor)).*?)"/gim
+    const widthHeight = /\s+(width|height)=".*?"/gim
+    return svg
+      .replace(strokeFill, ' $1="currentColor"')
+      .replace(widthHeight, '')
   },
 
   makeSolid: svg => {
