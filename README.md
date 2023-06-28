@@ -19,14 +19,17 @@ npm install -D rmx-cli
 
 ## 🎁 svg-sprite ✨ NEW
 
-Generate SVG sprites recursively from `ROOT_FOLDER`. It generates the sprite file,
-as well as a React component for each icon. It also exports the `href`
-of the sprite file to use in the Remix `links` export.
+Generate SVG sprites recursively from `SOURCE_FOLDER`. It generates the sprite file,
+as well as a React component to create the icon by specifying the fully-typed icon name.
+It also exports the `href` of the sprite file to use in the Remix `links` export.
 
-> NOTE: v0.4.3 removed the _sprite.d.ts_ file in favor of named exports per icon
+If you want to generate a React component for _each_ icon, then add the `--components`
+argument. Then you can import the named icon directly.
+
+> NOTE: The React component name will be the filename in TitleCase
 
 ```bash
-npx rmx-cli svg-sprite <ROOT_FOLDER> <OUTPUT_FOLDER>
+npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_FOLDER [--components]
 ```
 
 ### Usage
@@ -38,7 +41,17 @@ npx rmx-cli svg-sprite assets/svg app/components/icons
 ```
 
 ```ts
-// import icon components and href to sprite file
+// import default Icon component and specify the icon by name
+// import the href to the sprite file to use in `links` export
+import {
+  default as RadixIcon,
+  href as radixIcons,
+} from "~/components/radixicons";
+
+<RadixIcon icon="bookmark" className="text-red-500 h-6 w-6" />
+<RadixIcon icon="envelope-open" className="text-green-500 h-6 w-6" />
+
+// OR import named icon components (using --components flag)
 import {
   ArchiveBoxIcon,
   ArrowDownIcon,

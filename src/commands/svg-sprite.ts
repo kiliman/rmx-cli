@@ -5,14 +5,23 @@ import svgParser from '../libs/svg-parser'
 
 let rootFolder = ''
 let outputFolder = ''
+let namedComponents = false
 
 export default function (args: string[]) {
   // verify arguments
   if (args.length >= 2) {
     rootFolder = normalizeFolder(args[0])
     outputFolder = normalizeFolder(args[1])
+    if (args[2] === '--components') {
+      namedComponents = true
+    }
   } else {
-    console.log('Usage: npx rmx-cli svg-sprite <rootFolder> <outputFolder>')
+    console.log(
+      'Usage: npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_FOLDER [--components]',
+    )
+    console.log('  SOURCE_FOLDER: folder containing .svg files')
+    console.log('  OUTPUT_FOLDER: folder to write sprite.svg and index.tsx')
+    console.log('   --components: generate named components for each icon')
     process.exit(1)
   }
 
@@ -79,34 +88,36 @@ function generateSprite(folder: string, files: string[]) {
 }
 
 function generateReactComponent(spriteOutputFolder: string, files: string[]) {
+  let icons = files.map(file => path.basename(file, '.svg'))
   let component = `
 import { type SVGProps } from "react";
 import href from "./sprite.svg";
 export { href };
 
-function Icon({ id, ...props}: SVGProps<SVGSVGElement>) {
+export default function Icon({ icon, ...props}: SVGProps<SVGSVGElement> & { icon: IconName }) {
   return (
     <svg {...props}>
-      <use href={\`\${href}#\${id}\`} className={props.className} />
+      <use href={\`\${href}#\${icon}\`} />
     </svg>
   );
 }
-`
 
-  files.forEach(file => {
-    const id = path.basename(file, '.svg')
-    console.log('✅', id)
-    // convert kebab case to title case
-    const componentName = id.replace(/(^|-)([a-z0-9])/g, g =>
-      g!.at(-1)!.toUpperCase(),
-    )
-    component += `
-export function ${componentName}Icon(props: SVGProps<SVGSVGElement>) {
-  return <Icon id="${id}" {...props} />;
-}
+type IconName =
+${icons.map(icon => `  | "${icon}"`).join('\n')}
 `
-  })
+  icons.forEach(icon => console.log(`✅ ${icon}`))
 
+  // if user wants named components, generate them
+  if (namedComponents) {
+    icons.forEach(icon => {
+      // convert kebab case to title case
+      const componentName = icon.replace(/(^|-)([a-z0-9])/g, g =>
+        g!.at(-1)!.toUpperCase(),
+      )
+      component += `
+export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
+    })
+  }
   fs.writeFileSync(path.join(spriteOutputFolder, 'index.tsx'), component.trim())
   console.log()
 }
