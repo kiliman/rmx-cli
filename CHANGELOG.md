@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.4
+
+- 🔨 Update React sprite component import
+
 ## 🚀 v0.4.3
 
 - 🔨 Export components for each icon instead of using sprite id
