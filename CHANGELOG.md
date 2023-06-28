@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## 🚀 v0.4.6
+
+- 🔨 Add --template argument for custom generation
+- 🔨 Strip width and height from SVG
+
 ## 🚀 v0.4.5
 
-🔨 Update component generation with --components flag for named exports
+- 🔨 Update component generation with --components flag for named exports
 
 ## 🚀 v0.4.4
 
