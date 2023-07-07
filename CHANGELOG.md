@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.8
+
+- 🔨 Export IconName in default svg template #12
+
 ## 🚀 v0.4.7
 
 - 🐛 Fix hardcoded sprite import (#11)
