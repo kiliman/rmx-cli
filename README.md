@@ -29,11 +29,47 @@ source folder.
 If you want to generate a React component for _each_ icon, then add the `--components`
 argument. Then you can import the named icon directly.
 
+> NOTE: The React component name will be the filename in TitleCase
+
 You can specify a custom template file that will be used as the base for the generated
 React component. The typed `IconNames` and exported components will be be appended to this
 template file.
 
-> NOTE: The React component name will be the filename in TitleCase
+Here's a sample template file:
+
+```ts
+import { type SVGProps } from 'react'
+import { cn } from '~/utils/misc'
+import href from './sprite.svg'
+export { href }
+
+const sizeClassName = {
+  font: 'w-font h-font',
+  xs: 'w-3 h-3',
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+  lg: 'w-6 h-6',
+  xl: 'w-7 h-7',
+} as const
+
+type Size = keyof typeof sizeClassName
+
+export default function Icon({
+  icon,
+  size = 'font',
+  className,
+  ...props
+}: SVGProps<SVGSVGElement> & { icon: IconName; size?: Size }) {
+  return (
+    <svg
+      {...props}
+      className={cn(sizeClassName[size], 'inline self-center', className)}
+    >
+      <use href={`${href}#${icon}`} />
+    </svg>
+  )
+}
+```
 
 ```bash
 npx rmx-cli svg-sprite SOURCE_FOLDER OUTPUT_PATH [--components] [--template=TEMPLATE_FILE]
