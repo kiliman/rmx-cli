@@ -104,11 +104,12 @@ function generateSprite(folder: string, files: string[]) {
 
 function generateReactComponent(spriteOutputFolder: string, files: string[]) {
   let icons = files.map(file => path.basename(file, '.svg'))
+  const spritePath = path.basename(outputFilename, '.tsx') + '.svg'
   let component =
     template ??
     `
 import { type SVGProps } from "react";
-import href from "./sprite.svg";
+import href from "./${spritePath}";
 export { href };
 
 export default function Icon({ icon, ...props}: SVGProps<SVGSVGElement> & { icon: IconName }) {
