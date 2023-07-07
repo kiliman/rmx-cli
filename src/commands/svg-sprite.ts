@@ -122,7 +122,7 @@ export default function Icon({ icon, ...props}: SVGProps<SVGSVGElement> & { icon
 `
   // add type IconName for each icon file
   component += `
-type IconName =
+export type IconName =
 ${icons.map(icon => `  | "${icon}"`).join('\n')}
 `
   icons.forEach(icon => console.log(`✅ ${icon}`))
