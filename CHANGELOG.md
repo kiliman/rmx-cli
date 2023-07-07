@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.7
+
+- 🐛 Fix hardcoded sprite import (#11)
+
 ## 🚀 v0.4.6
 
 - 🔨 Add --template argument for custom generation
