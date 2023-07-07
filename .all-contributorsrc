@@ -46,6 +46,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "andrewcohen",
+      "name": "Andrew Cohen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1016046?v=4",
+      "profile": "https://github.com/andrewcohen",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
