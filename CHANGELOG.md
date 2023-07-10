@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.9
+
+- 🐛 Fix broken publish
+
 ## 🚀 v0.4.8
 
 - 🔨 Export IconName in default svg template #12
