@@ -55,6 +55,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "courdek",
+      "name": "Andrew Coppola",
+      "avatar_url": "https://avatars.githubusercontent.com/u/319738?v=4",
+      "profile": "https://github.com/courdek",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7
