@@ -122,9 +122,11 @@ export default function Icon({ icon, ...props}: SVGProps<SVGSVGElement> & { icon
 `
   // add type IconName for each icon file
   component += `
-export type IconName =
-${icons.map(icon => `  | "${icon}"`).join('\n')}
-`
+export const iconNames = [
+${icons.map(icon => `  "${icon}",`).join('\n')}
+] as const;
+export type IconName = typeof iconNames[number];`
+
   icons.forEach(icon => console.log(`✅ ${icon}`))
 
   // if user wants named components, generate them
