@@ -1,7 +1,9 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -33,7 +35,7 @@ argument. Then you can import the named icon directly.
 
 You can specify a custom template file that will be used as the base for the generated
 React component. The typed `IconNames` and exported components will be be appended to this
-template file.
+template file. An array of icon names is also exported: `export const iconNames = ["..."] as const`
 
 Here's a sample template file:
 
