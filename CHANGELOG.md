@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.10
+
+- 🔨 Export string array of icon names and generate type union from it (#13)
+
 ## 🚀 v0.4.9
 
 - 🐛 Fix broken publish
