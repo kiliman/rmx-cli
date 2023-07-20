@@ -47,6 +47,16 @@ export default function (args: string[]) {
   generateSprites(rootFolder)
 }
 
+// queue up console.log calls so we can print them after files are "generated"
+const logs: any[] = []
+function log(...args: any[]) {
+  logs.push(args)
+}
+function flushLogs() {
+  logs.forEach(args => console.log(...args))
+  logs.length = 0
+}
+
 function normalizeFolder(folder: string) {
   let fullPath = path.resolve(folder)
   // remove cwd from path and leading slash
@@ -85,7 +95,7 @@ function generateSprite(folder: string, files: string[]) {
     path.basename(outputFilename, '.tsx') + '.svg',
   )
 
-  console.log(`📝 Generating sprite for ${folder}`)
+  log(`📝 Generating sprite for ${folder}`)
 
   // create output folder if it doesn't exist
   if (!fs.existsSync(spriteOutputFolder)) {
@@ -97,7 +107,21 @@ function generateSprite(folder: string, files: string[]) {
   let { svgElement } = svgParser.iterateFiles(files, strip, trim)
 
   svgElement = svgParser.wrapInSvgTag(svgElement)
-  svgParser.writeIconsToFile(spriteOutput, svgElement)
+
+  const exists = fs.existsSync(spriteOutput)
+  let hasChanges = !exists // if sprite doesn't exist, then we have changes
+  if (exists) {
+    // read existing sprite file
+    const existingSprite = fs.readFileSync(spriteOutput, 'utf8')
+    if (existingSprite !== svgElement) {
+      hasChanges = true
+    }
+  }
+  if (hasChanges) {
+    // write sprite file
+    fs.writeFileSync(spriteOutput, svgElement, 'utf8')
+    flushLogs()
+  }
 
   generateReactComponent(spriteOutputFolder, files)
 }
@@ -127,7 +151,7 @@ ${icons.map(icon => `  "${icon}",`).join('\n')}
 ] as const;
 export type IconName = typeof iconNames[number];`
 
-  icons.forEach(icon => console.log(`✅ ${icon}`))
+  icons.forEach(icon => log(`✅ ${icon}`))
 
   // if user wants named components, generate them
   if (namedComponents) {
@@ -140,9 +164,21 @@ export type IconName = typeof iconNames[number];`
 export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
     })
   }
-  fs.writeFileSync(
-    path.join(spriteOutputFolder, outputFilename),
-    component.trim(),
-  )
-  console.log()
+  const componentOutput = path.join(spriteOutputFolder, outputFilename)
+  component = component.trim()
+
+  const exists = fs.existsSync(componentOutput)
+  let hasChanges = !exists // if sprite doesn't exist, then we have changes
+  if (exists) {
+    // read existing sprite file
+    const existingComponent = fs.readFileSync(componentOutput, 'utf8')
+    if (existingComponent !== component) {
+      hasChanges = true
+    }
+  }
+  if (hasChanges) {
+    // write sprite file
+    fs.writeFileSync(componentOutput, component, 'utf8')
+    flushLogs()
+  }
 }
