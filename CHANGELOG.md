@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.11
+
+- 🔨 Do not generate files or log to console if files are same as existing
+
 ## 🚀 v0.4.10
 
 - 🔨 Export string array of icon names and generate type union from it (#13)
