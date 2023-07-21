@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.12
+
+- 🔨 Update CLI to specify sprite and types filenames
+
 ## 🚀 v0.4.11
 
 - 🔨 Do not generate files or log to console if files are same as existing
