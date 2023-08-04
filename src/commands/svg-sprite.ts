@@ -78,8 +78,21 @@ function flushLogs() {
 function normalizeFolder(folder: string) {
   let fullPath = path.resolve(folder)
   // remove cwd from path and leading slash
-  let normalized = fullPath.replace(process.cwd(), '').substring(1)
+  const cwd = ensureSlash(process.cwd())
+  let normalized = fullPath
+  // check if normalized starts with cwd (both have to end with /, otherwise
+  // the check might be wrong, e.g. /tmp/test is cwd and /tmp/test2 is fullPath)
+  if (normalized.startsWith(cwd)) {
+    normalized = normalized.replace(cwd, '')
+  }
   return normalized
+}
+
+function ensureSlash(input: string): string {
+  if (!input.endsWith(path.sep)) {
+    input = input + path.sep
+  }
+  return input
 }
 
 function generateSprites(folder: string) {
