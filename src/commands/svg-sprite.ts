@@ -89,8 +89,8 @@ function normalizeFolder(folder: string) {
 }
 
 function ensureSlash(input: string): string {
-  if (!input.endsWith('/')) {
-    input = input + '/'
+  if (!input.endsWith(path.sep)) {
+    input = input + path.sep
   }
   return input
 }
