@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 🚀 v0.4.13
+
+- 🔨 Allow outputFolder to be an absolute path (#15)
+
 ## 🚀 v0.4.12
 
 - 🔨 Update CLI to specify sprite and types filenames
