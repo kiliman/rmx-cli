@@ -31,7 +31,10 @@
     "scaffolding",
     "generator"
   ],
-  "repository": "kiliman/rmx-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiliman/rmx-cli.git"
+  },
   "devDependencies": {
     "@types/node": "^17.0.30",
     "@types/node-fetch": "^2.5.7",
