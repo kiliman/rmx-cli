@@ -215,12 +215,13 @@ export type IconName = typeof iconNames[number];`
 
   // if user wants named components, generate them
   if (namedComponents) {
+    output += '\n';
     icons.forEach(icon => {
       // convert kebab case to title case
-      const componentName = icon.replace(/(^|-)([a-z0-9])/g, g =>
+      const componentName = icon.replace(/(^|-|_)([a-z0-9])/g, g =>
         g!.at(-1)!.toUpperCase(),
       )
-      component += `
+      output += `
 export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
     })
   }
