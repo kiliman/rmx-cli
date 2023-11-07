@@ -1,7 +1,7 @@
 # rmx-cli
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A CLI tool for Remix applications. Future versions will support adding external
@@ -239,6 +239,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://justinrhall.dev/"><img src="https://avatars.githubusercontent.com/u/1288694?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Justin Hall</b></sub></a><br /><a href="https://github.com/Kiliman/rmx-cli/commits?author=wKovacs64" title="Code">💻</a> <a href="https://github.com/Kiliman/rmx-cli/issues?q=author%3AwKovacs64" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://florianweinaug.de/"><img src="https://avatars.githubusercontent.com/u/17765766?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Florian Weinaug</b></sub></a><br /><a href="https://github.com/Kiliman/rmx-cli/commits?author=fweinaug" title="Code">💻</a> <a href="https://github.com/Kiliman/rmx-cli/issues?q=author%3Afweinaug" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

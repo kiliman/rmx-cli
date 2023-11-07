@@ -83,6 +83,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "fweinaug",
+      "name": "Florian Weinaug",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17765766?v=4",
+      "profile": "http://florianweinaug.de/",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
