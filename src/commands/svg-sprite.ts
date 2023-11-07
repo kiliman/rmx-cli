@@ -121,11 +121,7 @@ function generateSprite(folder: string, files: string[]) {
   // spriteOutputFolder: components/svg/heroicons/20/solid
 
   const spriteOutputFolder = folder.replace(rootFolder, outputFolder)
-
-  const spriteOutput = path.join(
-    spriteOutputFolder,
-    path.basename(component, '.tsx') + '.svg',
-  )
+  const spriteOutput = path.join(spriteOutputFolder, path.basename(sprite))
 
   log(`📝 Generating sprite for ${folder}`)
 
