@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 🚀 v0.4.14
+
+- 🐛 Fix svg-sprite component generation (#18)
+- 🐛 Fix svg-sprite's sprite option (#20)
+
 ## 🚀 v0.4.13
 
 - 🔨 Allow outputFolder to be an absolute path (#15)
