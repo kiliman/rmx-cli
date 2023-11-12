@@ -7,6 +7,7 @@ let rootFolder = ''
 let outputFolder = ''
 let template: string | null = null
 let namedComponents = false
+let componentsTemplate: string | null = null
 let component = 'icon.tsx'
 let sprite = 'icon.svg'
 let types = ''
@@ -35,6 +36,11 @@ export default function (args: string[]) {
         types = args[i].substring('--types='.length)
       } else if (args[i] === '--components') {
         namedComponents = true
+      } else if (args[i].startsWith('--components-template=')) {
+        const templateFilename = args[i].substring(
+          '--components-template='.length,
+        )
+        componentsTemplate = fs.readFileSync(templateFilename, 'utf8')
       }
     }
   } else {
@@ -215,14 +221,16 @@ export type IconName = typeof iconNames[number];`
 
   // if user wants named components, generate them
   if (namedComponents) {
-    output += '\n';
+    output += '\n'
     icons.forEach(icon => {
       // convert kebab case to title case
       const componentName = icon.replace(/(^|-|_)([a-z0-9])/g, g =>
         g!.at(-1)!.toUpperCase(),
       )
-      output += `
-export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
+      output += '\n'
+      output +=
+          componentsTemplate?.replace(/{{icon}}/g, icon).replace(/{{componentName}}/g, componentName)
+          ?? `export const ${componentName}Icon = (props: SVGProps<SVGSVGElement>) => <Icon icon="${icon}" {...props} />;`
     })
   }
   const componentPath = path.join(spriteOutputFolder, component)
