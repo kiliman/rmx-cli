@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 🚀 v0.4.15
+
+- ✨ Add components-template option (#22)
+-
+
 ## 🚀 v0.4.14
 
 - 🐛 Fix svg-sprite component generation (#18)
